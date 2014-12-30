@@ -10,7 +10,7 @@
         <view:BooleanYesNoConverter x:Key="BooleanYesNoConverter"/>
     </UserControl.Resources>
     <Grid>
-        <ListView ItemsSource="{Binding Servers}">
+        <ListView Name="ServersListView" ItemsSource="{Binding Servers}">
             <ListView.Resources>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Visibility" Value="Collapsed" />
@@ -20,15 +20,42 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
+                <Style TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    <Setter Property="Padding" Value="4,1,12,2"/>
+                </Style>
             </ListView.Resources>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Module" Width="100" DisplayMemberBinding="{Binding Module}" />
-                    <GridViewColumn Header="Version" Width="50" DisplayMemberBinding="{Binding Version}" />
-                    <GridViewColumn Header="Map" Width="120" DisplayMemberBinding="{Binding Map}" />
-                    <GridViewColumn Header="Game type" Width="100" DisplayMemberBinding="{Binding GameType}" />
-                    <GridViewColumn Header="Players" Width="50">
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding Name}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Name" Click="ColumnHeaderOnClick">Name</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding Module}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Module" Click="ColumnHeaderOnClick">Module</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Version}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Version" Click="ColumnHeaderOnClick">Version</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="120" DisplayMemberBinding="{Binding Map}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Map" Click="ColumnHeaderOnClick">Map</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding GameType}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="GameType" Click="ColumnHeaderOnClick">Game type</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="PlayersCount" Click="ColumnHeaderOnClick">Players</GridViewColumnHeader>
+                        </GridViewColumn.Header>
                         <GridViewColumn.DisplayMemberBinding>
                             <MultiBinding StringFormat="{}{0}/{1}">
                                 <Binding Path="PlayersCount"/>
@@ -36,8 +63,16 @@
                             </MultiBinding>
                         </GridViewColumn.DisplayMemberBinding>
                     </GridViewColumn>
-                    <GridViewColumn Header="Password" Width="60" DisplayMemberBinding="{Binding HasPassword, Converter={StaticResource BooleanYesNoConverter}}"/>
-                    <GridViewColumn Header="Dedicated" Width="60" DisplayMemberBinding="{Binding IsDedicated, Converter={StaticResource BooleanYesNoConverter}}"/>
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding HasPassword, Converter={StaticResource BooleanYesNoConverter}}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="HasPassword" Click="ColumnHeaderOnClick">Password</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding IsDedicated, Converter={StaticResource BooleanYesNoConverter}}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="IsDedicated" Click="ColumnHeaderOnClick">Dedicated</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
