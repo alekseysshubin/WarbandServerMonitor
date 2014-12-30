@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="WarbandServerMonitor.View.ServerList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:view="clr-namespace:WarbandServerMonitor.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="800">
+    <UserControl.Resources>
+        <view:BooleanYesNoConverter x:Key="BooleanYesNoConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <ListView ItemsSource="{Binding Servers}">
+            <ListView.Resources>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLoaded}" Value="True">
+                            <Setter Property="ListBoxItem.Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Module" Width="100" DisplayMemberBinding="{Binding Module}" />
+                    <GridViewColumn Header="Version" Width="50" DisplayMemberBinding="{Binding Version}" />
+                    <GridViewColumn Header="Map" Width="120" DisplayMemberBinding="{Binding Map}" />
+                    <GridViewColumn Header="Game type" Width="100" DisplayMemberBinding="{Binding GameType}" />
+                    <GridViewColumn Header="Players" Width="50">
+                        <GridViewColumn.DisplayMemberBinding>
+                            <MultiBinding StringFormat="{}{0}/{1}">
+                                <Binding Path="PlayersCount"/>
+                                <Binding Path="MaxPlayers"/>
+                            </MultiBinding>
+                        </GridViewColumn.DisplayMemberBinding>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Password" Width="60" DisplayMemberBinding="{Binding HasPassword, Converter={StaticResource BooleanYesNoConverter}}"/>
+                    <GridViewColumn Header="Dedicated" Width="60" DisplayMemberBinding="{Binding IsDedicated, Converter={StaticResource BooleanYesNoConverter}}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>

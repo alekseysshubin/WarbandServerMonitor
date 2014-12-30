@@ -1,0 +1,9 @@
+﻿<Window x:Class="WarbandServerMonitor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:view="clr-namespace:WarbandServerMonitor.View"
+        Title="Warband Server Monitor" Height="380" Width="750" Loaded="Window_Loaded" Closed="Window_Closed">
+    <Grid>
+        <view:ServerList/>
+    </Grid>
+</Window>
