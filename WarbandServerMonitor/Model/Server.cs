@@ -102,14 +102,14 @@ namespace WarbandServerMonitor.Model
             IP = ip;
             Port = port;
             _monitorTimer = new Timer(interval.TotalMilliseconds);
-            _monitorTimer.Elapsed += (sender, e) => Load();
+            _monitorTimer.Elapsed += (_, __) => Load();
         }
 
         #region Methods
 
         public void StartMonitor()
         {
-            Task.Run(() => Load()).ContinueWith(prevTask => _monitorTimer.Start());
+            Task.Run(async () => await Load()).ContinueWith(_ => _monitorTimer.Start());
         }
 
         public void StopMonitor()
@@ -117,15 +117,15 @@ namespace WarbandServerMonitor.Model
             _monitorTimer.Stop();
         }
 
-        private void Load()
+        private async Task Load()
         {
             try
             {
                 var client = new TcpClient();
-                client.Connect(IP, Port);
+                await client.ConnectAsync(IP, Port);
                 using (var reader = new StreamReader(client.GetStream()))
                 {
-                    var data = reader.ReadToEnd();
+                    var data = await reader.ReadToEndAsync();
                     var xml = XElement.Parse(data);
                     Name = xml.Descendants("Name").First().Value;
                     Module = xml.Descendants("ModuleName").First().Value;
