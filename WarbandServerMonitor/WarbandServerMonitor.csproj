@@ -53,7 +53,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\TaskExtensions.cs" />
+    <Compile Include="Model\Ping.cs" />
     <Compile Include="Model\ServerList.cs" />
+    <Compile Include="Model\TokenGenerator.cs" />
     <Compile Include="View\BooleanYesNoConverter.cs" />
     <Compile Include="View\ServerList.xaml.cs">
       <DependentUpon>ServerList.xaml</DependentUpon>

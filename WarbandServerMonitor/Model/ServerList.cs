@@ -8,15 +8,17 @@ namespace WarbandServerMonitor.Model
     public class ServerList : IDisposable
     {
         private readonly string _masterServerUrl;
+        private readonly TokenGenerator _tokenGenerator;
 
         public List<Server> Servers { get; private set; }
 
         public ServerList()
         {
             Servers = new List<Server>();
+            _tokenGenerator = new TokenGenerator();
         }
 
-        public ServerList(IEnumerable<Server> servers)
+        public ServerList(IEnumerable<Server> servers) : this()
         {
             Servers = servers.ToList();
         }
@@ -37,12 +39,16 @@ namespace WarbandServerMonitor.Model
                         from serverData in data.Split('|')
                         let serverDataSplit = serverData.Split(':')
                         select new Server(
-                            IPAddress.Parse(serverDataSplit[0]),
+                            IPAddress.Parse(serverDataSplit[0]),                           
                             serverDataSplit.Count() > 1 ? int.Parse(serverDataSplit[1]) : 7240,
-                            TimeSpan.FromSeconds(30))
+                            TimeSpan.FromSeconds(30),
+                            52327,
+                            _tokenGenerator)
                         ).ToList();
                 }
             }
+            var russian = Servers.First(x => x.IP.Equals(IPAddress.Parse("46.17.40.82")));
+            Servers = new List<Server>(new[] { russian });
             foreach (var server in Servers)
             {
                 server.StartMonitor();

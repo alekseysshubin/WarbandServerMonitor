@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarbandServerMonitor", "WarbandServerMonitor\WarbandServerMonitor.csproj", "{BC9172A4-B584-4F62-AB49-60E77B656706}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDPTest", "UDPTest\UDPTest.csproj", "{D6C8A52F-0819-43F5-87E1-55499B0AFAD1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BC9172A4-B584-4F62-AB49-60E77B656706}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC9172A4-B584-4F62-AB49-60E77B656706}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC9172A4-B584-4F62-AB49-60E77B656706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6C8A52F-0819-43F5-87E1-55499B0AFAD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6C8A52F-0819-43F5-87E1-55499B0AFAD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6C8A52F-0819-43F5-87E1-55499B0AFAD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6C8A52F-0819-43F5-87E1-55499B0AFAD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

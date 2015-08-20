@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -17,6 +19,8 @@ namespace WarbandServerMonitor.Model
         #region Fields
 
         private readonly Timer _monitorTimer;
+        private readonly Ping _pinger;
+
         private int _playersCount;
         private string _name;
         private string _module;
@@ -26,6 +30,7 @@ namespace WarbandServerMonitor.Model
         private int _maxPlayers;
         private bool _hasPassword;
         private bool _isDedicated;
+        private long? _ping;
         private bool _isLoaded;
 
         #endregion Fields
@@ -89,6 +94,12 @@ namespace WarbandServerMonitor.Model
             private set { SetProperty(ref _isDedicated, value); }
         }
 
+        public long? Ping
+        {
+            get { return _ping; }
+            private set { SetProperty(ref _ping, value); }
+        }
+
         public bool IsLoaded
         {
             get { return _isLoaded; }
@@ -97,8 +108,9 @@ namespace WarbandServerMonitor.Model
 
         #endregion Properties
 
-        public Server(IPAddress ip, int port, TimeSpan interval)
+        public Server(IPAddress ip, int port, TimeSpan interval, int localPort, TokenGenerator tokenGenerator)
         {
+            _pinger = new Ping(localPort, new IPEndPoint(ip, port), tokenGenerator);
             IP = ip;
             Port = port;
             _monitorTimer = new Timer(interval.TotalMilliseconds);
@@ -136,8 +148,9 @@ namespace WarbandServerMonitor.Model
                     MaxPlayers = int.Parse(xml.Descendants("MaxNumberOfPlayers").First().Value);
                     HasPassword = xml.Descendants("HasPassword").First().Value.ToLower() == "yes";
                     IsDedicated = xml.Descendants("IsDedicated").First().Value.ToLower() == "yes";
-                    IsLoaded = true;
                 }
+                Ping = await _pinger.Send();
+                IsLoaded = true;
             }
             catch { /* Something wrong with the server. Skip. */ }
         }
@@ -163,7 +176,7 @@ namespace WarbandServerMonitor.Model
 
         protected virtual void SetProperty<T>(ref T value, T newValue, [CallerMemberName] string propertyName = null)
         {
-            if (value == null && newValue == null || value != null && value.Equals(newValue)) return;
+            if (Equals(value, newValue)) return;
             value = newValue;
             OnPropertyChanged(propertyName);
         }

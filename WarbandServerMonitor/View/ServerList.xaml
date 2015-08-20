@@ -73,6 +73,11 @@
                             <GridViewColumnHeader Tag="IsDedicated" Click="ColumnHeaderOnClick">Dedicated</GridViewColumnHeader>
                         </GridViewColumn.Header>
                     </GridViewColumn>
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Ping}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Ping" Click="ColumnHeaderOnClick">Ping</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
